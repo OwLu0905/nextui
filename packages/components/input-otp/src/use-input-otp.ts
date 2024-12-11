@@ -127,6 +127,14 @@ export function useInputOtp(originalProps: UseInputOtpProps) {
   const inputRef = useDOMRef<HTMLInputElement>(ref);
   const baseDomRef = useDOMRef<HTMLDivElement>(baseRef);
 
+  const regex = new RegExp(allowedKeys);
+  let valueFromProps = props.value
+    ? props.value
+        .split("")
+        .filter((char) => regex.test(char))
+        .join("")
+    : undefined;
+
   const {isFocusVisible, isFocused, focusProps} = useFocusRing({
     autoFocus,
     isTextInput: true,
@@ -140,7 +148,7 @@ export function useInputOtp(originalProps: UseInputOtpProps) {
   );
 
   const [value, setValue] = useControlledState(
-    props.value,
+    valueFromProps,
     props.defaultValue ?? "",
     handleValueChange,
   );

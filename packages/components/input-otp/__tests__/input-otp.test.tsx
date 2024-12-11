@@ -183,6 +183,15 @@ describe("InputOtp Component", () => {
 
     expect(segments[0]).not.toHaveAttribute("data-focus", "true");
   });
+
+  it("should ensure the value prop avoids any disallowed keys.", () => {
+    const value = "4abc12uiond2";
+
+    render(<InputOtp length={4} value={value} />);
+    const input = screen.getByRole("textbox");
+
+    expect(input).toHaveAttribute("value", "4122");
+  });
 });
 
 describe("InputOtp with react-hook-form", () => {
